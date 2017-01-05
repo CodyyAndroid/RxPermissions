@@ -17,6 +17,6 @@ allprojects {
 **Step 2. Add the dependency**
 ```
 dependencies {
-	        compile 'com.github.CodyyAndroid:LibUtils:v1.0.2'
+	        compile 'com.github.CodyyAndroid:RxPermissionsSample:v1.0.0'
 	}
 ```
