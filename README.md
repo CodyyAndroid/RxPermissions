@@ -1,6 +1,6 @@
-# RxPermissionsSample
+# RxPermissions
 Android runtime permissions powered by RxJava
-
+[![](https://jitpack.io/v/CodyyAndroid/RxPermissions.svg)](https://jitpack.io/#CodyyAndroid/RxPermissions)
 
 ## How to
 **Step 1. Add the JitPack repository to your build file**
@@ -17,6 +17,6 @@ allprojects {
 **Step 2. Add the dependency**
 ```
 dependencies {
-	        compile 'com.github.CodyyAndroid:RxPermissionsSample:v1.0.0'
+	        compile 'com.github.CodyyAndroid:RxPermissions:v1.0.1'
 	}
 ```
