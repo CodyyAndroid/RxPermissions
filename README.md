@@ -20,7 +20,7 @@ allprojects {
 **Step 2. Add the dependency**
 ```
 dependencies {
-	        compile 'com.github.CodyyAndroid:RxPermissions:v1.0.1'
+	        compile 'com.github.CodyyAndroid:RxPermissions:v1.0.2'
 	}
 ```
 ## Usage
