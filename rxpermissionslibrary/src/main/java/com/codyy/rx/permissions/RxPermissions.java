@@ -31,7 +31,7 @@ public class RxPermissions {
 
     static final String TAG = "RxPermissions";
 
-    RxPermissionsFragment mRxPermissionsFragment;
+    private RxPermissionsFragment mRxPermissionsFragment;
 
     public RxPermissions(@NonNull android.support.v4.app.FragmentManager fragmentManager) {
         mRxPermissionsFragment = getRxPermissionsFragment(fragmentManager);
@@ -45,7 +45,7 @@ public class RxPermissions {
             fragmentManager
                     .beginTransaction()
                     .add(rxPermissionsFragment, TAG)
-                    .commit();
+                    .commitAllowingStateLoss();
             fragmentManager.executePendingTransactions();
         }
         return rxPermissionsFragment;

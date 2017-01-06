@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,11 +48,16 @@ public class BtnFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         RxView.clicks(mView.findViewById(R.id.button))
                 .throttleFirst(1, TimeUnit.SECONDS)
-                .compose(mRxPermissions.ensureEach(Manifest.permission.CAMERA,Manifest.permission.CALL_PHONE))
+                .compose(mRxPermissions.ensureEach(Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE))
                 .subscribe(new Action1<Permission>() {
                     @Override
                     public void call(Permission permission) {
                         result(getContext(), permission);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("throwable", throwable.getMessage());
                     }
                 });
     }
