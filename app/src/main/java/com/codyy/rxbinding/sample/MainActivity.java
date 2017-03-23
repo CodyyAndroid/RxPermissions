@@ -10,12 +10,13 @@ import android.widget.Toast;
 
 import com.codyy.rx.permissions.Permission;
 import com.codyy.rx.permissions.RxPermissions;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.io.IOException;
 
-import rx.functions.Action0;
-import rx.functions.Action1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,45 +37,39 @@ public class MainActivity extends AppCompatActivity {
         RxView.clicks(findViewById(R.id.enableCamera))
                 // Ask for permissions when button is clicked
                 .compose(rxPermissions.ensureEach(Manifest.permission.CAMERA))
-                .subscribe(new Action1<Permission>() {
-                               @Override
-                               public void call(Permission permission) {
-                                   Log.i(TAG, "Permission result " + permission);
-                                   if (permission.granted) {
-                                       releaseCamera();
-                                       camera = Camera.open(0);
-                                       try {
-                                           camera.setPreviewDisplay(surfaceView.getHolder());
-                                           camera.startPreview();
-                                       } catch (IOException e) {
-                                           Log.e(TAG, "Error while trying to display the camera preview", e);
-                                       }
-                                   } else if (permission.shouldShowRequestPermissionRationale) {
-                                       // Denied permission without ask never again
-                                       Toast.makeText(MainActivity.this,
-                                               "Denied permission without ask never again",
-                                               Toast.LENGTH_SHORT).show();
-                                   } else {
-                                       // Denied permission with ask never again
-                                       // Need to go to the settings
-                                       Toast.makeText(MainActivity.this,
-                                               "Permission denied, can't enable the camera",
-                                               Toast.LENGTH_SHORT).show();
-                                   }
-                               }
-                           },
-                        new Action1<Throwable>() {
-                            @Override
-                            public void call(Throwable t) {
-                                Log.e(TAG, "onError", t);
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(@NonNull Permission permission) throws Exception {
+                        Log.i(TAG, "Permission result " + permission);
+                        if (permission.granted) {
+                            releaseCamera();
+                            camera = Camera.open(0);
+                            try {
+                                camera.setPreviewDisplay(surfaceView.getHolder());
+                                camera.startPreview();
+                            } catch (IOException e) {
+                                Log.e(TAG, "Error while trying to display the camera preview", e);
                             }
-                        },
-                        new Action0() {
-                            @Override
-                            public void call() {
-                                Log.i(TAG, "OnComplete");
-                            }
-                        });
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            // Denied permission without ask never again
+                            Toast.makeText(MainActivity.this,
+                                    "Denied permission without ask never again",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Denied permission with ask never again
+                            // Need to go to the settings
+                            Toast.makeText(MainActivity.this,
+                                    "Permission denied, can't enable the camera",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        Log.e(TAG, "onError", throwable);
+                    }
+                })
+        ;
     }
 
     @Override

@@ -13,11 +13,12 @@ import android.widget.Toast;
 
 import com.codyy.rx.permissions.Permission;
 import com.codyy.rx.permissions.RxPermissions;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.functions.Action1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -49,14 +50,14 @@ public class BtnFragment extends Fragment {
         RxView.clicks(mView.findViewById(R.id.button))
                 .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(mRxPermissions.ensureEach(Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE))
-                .subscribe(new Action1<Permission>() {
+                .subscribe(new Consumer<Permission>() {
                     @Override
-                    public void call(Permission permission) {
+                    public void accept(@NonNull Permission permission) throws Exception {
                         result(getContext(), permission);
                     }
-                }, new Action1<Throwable>() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void call(Throwable throwable) {
+                    public void accept(@NonNull Throwable throwable) throws Exception {
                         Log.e("throwable", throwable.getMessage());
                     }
                 });
