@@ -11,7 +11,8 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-import rx.subjects.PublishSubject;
+import io.reactivex.subjects.PublishSubject;
+
 
 public class RxPermissionsFragment extends Fragment {
 
@@ -64,7 +65,7 @@ public class RxPermissionsFragment extends Fragment {
             mSubjects.remove(permissions[i]);
             boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             subject.onNext(new Permission(permissions[i], granted, shouldShowRequestPermissionRationale[i]));
-            subject.onCompleted();
+            subject.onComplete();
         }
     }
 
