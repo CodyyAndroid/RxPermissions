@@ -20,7 +20,8 @@ allprojects {
 **Step 2. Add the dependency**
 ```
 dependencies {
-	        compile 'com.github.CodyyAndroid:RxPermissions:v1.0.2'
+	        //compile 'com.github.CodyyAndroid:RxPermissions:v1.0.2'//based on Rxjava 1.*
+	        compile 'com.github.CodyyAndroid:RxPermissions:v2.0.0//based on Rxjava2.*
 	}
 ```
 ## Usage
@@ -114,5 +115,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-## THANKS
-Thanks to @tbruyelle
+
