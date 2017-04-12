@@ -61,6 +61,13 @@ public class BtnFragment extends Fragment {
                         Log.e("throwable", throwable.getMessage());
                     }
                 });
+        mRxPermissions.request(Manifest.permission.CAMERA)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+
+                    }
+                });
     }
 
     private void result(Context context, Permission permission) {
