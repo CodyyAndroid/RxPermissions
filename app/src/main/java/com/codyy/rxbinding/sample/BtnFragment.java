@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,23 +50,33 @@ public class BtnFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         RxView.clicks(mView.findViewById(R.id.button))
                 .throttleFirst(1, TimeUnit.SECONDS)
-                .compose(mRxPermissions.ensureEach(Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE))
-                .subscribe(new Consumer<Permission>() {
-                    @Override
-                    public void accept(@NonNull Permission permission) throws Exception {
-                        result(getContext(), permission);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        Log.e("throwable", throwable.getMessage());
-                    }
-                });
-        mRxPermissions.request(Manifest.permission.CAMERA)
+                .compose(mRxPermissions.ensure(Manifest.permission.CAMERA))
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
-
+                        if (!aBoolean)
+                            Toast.makeText(getContext(), "获取权限失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        RxView.clicks(mView.findViewById(R.id.button2))
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        switch (PermissionChecker.checkSelfPermission(getContext(), Manifest.permission.CAMERA)) {
+                            case PermissionChecker.PERMISSION_DENIED:
+                                Toast.makeText(getContext(), "PERMISSION_DENIED拒绝", Toast.LENGTH_SHORT).show();
+                                PermissionsUtils.warn(getContext(), "相机权限获取失败");
+                                break;
+                            case PermissionChecker.PERMISSION_DENIED_APP_OP:
+                                Toast.makeText(getContext(), "PERMISSION_DENIED_APP_OP拒绝", Toast.LENGTH_SHORT).show();
+                                break;
+                            case PermissionChecker.PERMISSION_GRANTED:
+                                Toast.makeText(getContext(), "成功", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 });
     }

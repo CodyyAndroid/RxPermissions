@@ -18,6 +18,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.content.PermissionChecker;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -163,7 +164,6 @@ public class RxPermissions {
         return Observable.merge(trigger, pending);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private Observable<Permission> requestImplementation(final String... permissions) {
         List<Observable<Permission>> list = new ArrayList<>(permissions.length);
         List<String> unrequestedPermissions = new ArrayList<>();

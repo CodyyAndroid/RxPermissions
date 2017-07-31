@@ -5,7 +5,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -32,12 +34,10 @@ public class RxPermissionsFragment extends Fragment {
         setRetainInstance(true);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     void requestPermissions(@NonNull String[] permissions) {
         requestPermissions(permissions, PERMISSIONS_REQUEST_CODE);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -63,22 +63,19 @@ public class RxPermissionsFragment extends Fragment {
                 return;
             }
             mSubjects.remove(permissions[i]);
-            boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            boolean granted = (grantResults[i] == PackageManager.PERMISSION_GRANTED) && (PermissionChecker.checkSelfPermission(getContext(), permissions[i]) == PermissionChecker.PERMISSION_GRANTED);
             subject.onNext(new Permission(permissions[i], granted, shouldShowRequestPermissionRationale[i]));
             subject.onComplete();
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     boolean isGranted(String permission) {
-        return getActivity().checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(getContext(), permission) == PackageManager.PERMISSION_GRANTED && (PermissionChecker.checkSelfPermission(getContext(), permission) == PermissionChecker.PERMISSION_GRANTED);
     }
-
     @TargetApi(Build.VERSION_CODES.M)
     boolean isRevoked(String permission) {
         return getActivity().getPackageManager().isPermissionRevokedByPolicy(permission, getActivity().getPackageName());
     }
-
     public void setLogging(boolean logging) {
         mLogging = logging;
     }
