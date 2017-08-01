@@ -21,7 +21,7 @@ allprojects {
 ```
 dependencies {
 	        //compile 'com.github.CodyyAndroid:RxPermissions:v1.0.2'//based on Rxjava 1.*
-	        compile 'com.github.CodyyAndroid:RxPermissions:v2.0.2'//based on Rxjava2.*
+	        compile 'com.github.CodyyAndroid:RxPermissions:v2.0.3'//based on Rxjava2.*
 	}
 ```
 ## Usage
