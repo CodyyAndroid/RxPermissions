@@ -2,11 +2,12 @@ package com.codyy.rxbinding.sample;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +55,9 @@ public class BtnFragment extends Fragment {
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
-                        if (!aBoolean)
-                            Toast.makeText(getContext(), "获取权限失败", Toast.LENGTH_SHORT).show();
+                        if (!aBoolean) {
+                            RxPermissions.showDialog(getContext(),getContext().getPackageName(),"未授予相机使用权限");
+                        }
                     }
                 });
         RxView.clicks(mView.findViewById(R.id.button2))
