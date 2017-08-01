@@ -16,10 +16,15 @@ package com.codyy.rx.permissions;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.content.PermissionChecker;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -265,6 +270,48 @@ public class RxPermissions {
 
     void onRequestPermissionsResult(String permissions[], int[] grantResults) {
         mRxPermissionsFragment.onRequestPermissionsResult(permissions, grantResults, new boolean[permissions.length]);
+    }
+
+    /**
+     * 未授予系统权限,弹窗提示并引导用户到应用设置页打开权限
+     *
+     * @param context     context
+     * @param packageName 包名
+     * @param message     提示信息
+     */
+    public static void showDialog(@NonNull final Context context, @NonNull final String packageName, @NonNull String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("提示").setMessage(message);
+        builder.setCancelable(true);
+        builder.setPositiveButton("去打开", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                openPermissionSettings(context, packageName);
+            }
+        }).setNegativeButton("取消", null).create().show();
+    }
+
+    /**
+     * 打开权限设置页面
+     *
+     * @param context     context
+     * @param packageName 包名
+     */
+    public static void openPermissionSettings(@NonNull Context context, @NonNull String packageName) {
+        Intent intent = new Intent();
+        intent.setAction("miui.intent.action.APP_PERM_EDITOR");//适配小米MIUI系统权限管理
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra("extra_pkgname", packageName);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        } else {
+            Uri packageURI = Uri.parse("package:" + packageName);
+            intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS", packageURI);//谷歌原生系统权限管理
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "打开系统权限管理功能失败", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }
