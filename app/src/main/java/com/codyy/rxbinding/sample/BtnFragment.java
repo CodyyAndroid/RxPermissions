@@ -2,8 +2,6 @@ package com.codyy.rxbinding.sample;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +17,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 
@@ -54,7 +51,7 @@ public class BtnFragment extends Fragment {
                 .compose(mRxPermissions.ensure(Manifest.permission.CAMERA))
                 .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+                    public void accept( Boolean aBoolean) throws Exception {
                         if (!aBoolean) {
                             RxPermissions.showDialog(getContext(),getContext().getPackageName(),"未授予相机使用权限");
                         }
@@ -64,7 +61,7 @@ public class BtnFragment extends Fragment {
                 .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(new Consumer<Object>() {
                     @Override
-                    public void accept(@NonNull Object o) throws Exception {
+                    public void accept( Object o) throws Exception {
                         switch (PermissionChecker.checkSelfPermission(getContext(), Manifest.permission.CAMERA)) {
                             case PermissionChecker.PERMISSION_DENIED:
                                 Toast.makeText(getContext(), "PERMISSION_DENIED拒绝", Toast.LENGTH_SHORT).show();

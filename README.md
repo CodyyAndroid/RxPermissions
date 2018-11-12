@@ -21,7 +21,8 @@ allprojects {
 ```
 dependencies {
 	        //compile 'com.github.CodyyAndroid:RxPermissions:v1.0.2'//based on Rxjava 1.*
-	        compile 'com.github.CodyyAndroid:RxPermissions:v2.0.3'//based on Rxjava2.*
+	        //compile 'com.github.CodyyAndroid:RxPermissions:v2.0.3'//based on Rxjava2.*
+	        implementation 'com.github.CodyyAndroid:RxPermissions:v2.1.0'//based on Rxjava2.*
 	}
 ```
 ## [API](https://jitpack.io/com/github/CodyyAndroid/RxPermissions/v2.0.3/javadoc/)

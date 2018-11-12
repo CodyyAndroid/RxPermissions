@@ -14,7 +14,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.io.IOException;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 .compose(rxPermissions.ensureEach(Manifest.permission.CAMERA))
                 .subscribe(new Consumer<Permission>() {
                     @Override
-                    public void accept(@NonNull Permission permission) throws Exception {
+                    public void accept(Permission permission) throws Exception {
                         Log.i(TAG, "Permission result " + permission);
                         if (permission.granted) {
                             releaseCamera();
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) throws Exception {
                         Log.e(TAG, "onError", throwable);
                     }
                 })
