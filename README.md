@@ -24,6 +24,7 @@ dependencies {
 	        compile 'com.github.CodyyAndroid:RxPermissions:v2.0.3'//based on Rxjava2.*
 	}
 ```
+## [API](https://jitpack.io/com/github/CodyyAndroid/RxPermissions/v2.0.3/javadoc/)
 ## Usage
 
 Create a `RxPermissions` instance :
