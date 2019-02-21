@@ -4,7 +4,8 @@ Android runtime permissions powered by RxJava
 [![](https://jitpack.io/v/CodyyAndroid/RxPermissions.svg)](https://jitpack.io/#CodyyAndroid/RxPermissions)
 
 To use this library your `minSdkVersion` must be >= 9.
-
+## TODO
+- 小米安全中心权限适配[AppOpsManager](https://www.jianshu.com/p/5fa0a149926d)
 ## How to
 **Step 1. Add the JitPack repository to your build file**
 
